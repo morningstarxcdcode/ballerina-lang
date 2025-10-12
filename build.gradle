@@ -9,25 +9,9 @@ plugins {
     id 'repositories'
 }
 
-// Conditionally apply release plugin only if Git repository exists
-def gitAvailable = new File("${rootDir}/.git").exists()
-if (gitAvailable) {
-    apply plugin: 'net.researchgate.release'
-}
-
 allprojects {
-    tasks.withType(JavaCompile).configureEach {
-        options.fork = true
-    }
-
     group = project.group
     version = project.version
-
-    tasks.register('printPath') {
-        doLast{
-            println projectDir
-        }
-    }
 }
 
 subprojects {
@@ -51,96 +35,6 @@ subprojects {
             }
         }
     }
-
-// Conditionally configure release plugin only if Git repository exists
-if (gitAvailable) {
-    release {
-        // Disable check snapshots temporarily
-        failOnSnapshotDependencies = false
-        failOnCommitNeeded = false
-        tagTemplate = 'v${version}'
-        buildTasks = ['build']
-        git {
-            // To release from any branch
-            requireBranch = null
-        }
-    }
-}
-
-dependencies {
-    constraints {
-        //implementation 'org.springframework:spring-web:5.0.2.RELEASE'
-    }
-}
-
-def classFilesArray = []
-def execFilesArray = []
-def skipDirectories = [
-        "ballerina-gradle-plugins", // Gradle plugins
-        "jballerina-benchmark-test", // Benchmark test code
-        "lib-creator", // Gradle code for generate Bala files
-        "semtypes", // Tests are in nBallerina branch
-        "test-artifacts",// Tests directories for project api
-        "ballerina-lang/tests"// Ballerina Language Tests
-]
-
-tasks.register('copyExecFilesAndJavaClassFiles') {
-    subprojects.forEach { subproject ->
-        fileTree("${subproject.buildDir}/jacoco").matching {
-            include "**/*.exec"
-        }.each {
-            execFilesArray.push(it)
-        }
-        // Sources of modules used specifically for tests, gradle plugins are skipped
-        boolean skipProject = false
-        skipDirectories.forEach { dir ->
-            if (subproject.projectDir.path.contains(dir)) {
-                skipProject = true
-                return
-            }
-            }
-        }
-        if (skipProject) {
-            return
-        }
-        fileTree("${subproject.buildDir}/classes").matching {
-            exclude '**/java/test/**'
-            exclude '**/default/**'
-            exclude '**/module-info.class'
-        }.each { file ->
-            classFilesArray.push(file)
-        }
-    }
-}
-
-tasks.register('copyBallerinaClassFiles') {
-    subprojects.forEach { subproject ->
-        def ballerinaSourceDirectory = new File("${subproject.buildDir}/ballerina-src")
-        if (ballerinaSourceDirectory.exists() && subproject.projectDir.getParentFile().getName() == "langlib") {
-            fileTree("${subproject.buildDir}/ballerina-src/target").include("**/*.zip").forEach { zip ->
-                def jarFiles = zipTree(zip).matching { include '**/*.jar' }
-                jarFiles.forEach { jar ->
-                    zipTree(jar).matching {
-                        exclude '**/tests/*'
-                    }.each { file -> classFilesArray.push(file) }
-                }
-            }
-        }
-    }
-}
-
-tasks.register('createCodeCoverageReport', JacocoReport) {
-    executionData files(execFilesArray)
-    additionalClassDirs files(classFilesArray)
-    reports {
-        xml.required = true
-        html.required = true
-        xml.destination new File("${rootDir}/.jacoco/reports/jacoco/report.xml")
-        html.destination new File("${rootDir}/.jacoco/reports/jacoco/report.html")
-    }
-    onlyIf = {
-        true
-    }
 }
 
 sonarqube {
@@ -150,5 +44,3 @@ sonarqube {
     property "sonar.host.url", "https://sonarcloud.io"
   }
 }
-
-copyBallerinaClassFiles.dependsOn copyExecFilesAndJavaClassFiles 

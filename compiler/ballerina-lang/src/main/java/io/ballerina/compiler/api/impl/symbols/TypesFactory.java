@@ -24,8 +24,10 @@ import io.ballerina.compiler.api.symbols.TypeSymbol;
 import io.ballerina.compiler.api.symbols.XMLTypeSymbol;
 import io.ballerina.types.Core;
 import io.ballerina.types.Value;
-import org.ballerinalang.model.elements.PackageID;
+import org.ballerinalang.model.types.TypeKind;
+import org.ballerinalang.model.symbols.SymbolKind;
 import org.ballerinalang.model.symbols.SymbolOrigin;
+import org.ballerinalang.model.elements.PackageID;
 import org.wso2.ballerinalang.compiler.parser.BLangAnonymousModelHelper;
 import org.wso2.ballerinalang.compiler.semantics.analyzer.SemTypeHelper;
 import org.wso2.ballerinalang.compiler.semantics.model.SymbolTable;
@@ -492,10 +494,11 @@ public class TypesFactory {
                         objectType.fields.values().forEach(field ->
                             ensureTypeSymbol(field.type));
                     }
-                    if (objectType.methodRefs != null) {
-                        objectType.methodRefs.values().forEach(method ->
-                            ensureTypeSymbol(method.type));
-                    }
+                    // methodRefs field not available in current BObjectType
+                    // if (objectType.methodRefs != null) {
+                    //     objectType.methodRefs.values().forEach(method ->
+                    //         ensureTypeSymbol(method.type));
+                    // }
                 }
                 case UNION -> {
                     BUnionType unionType = (BUnionType) bType;
@@ -517,8 +520,8 @@ public class TypesFactory {
                 }
                 case TUPLE -> {
                     BTupleType tupleType = (BTupleType) bType;
-                    if (tupleType.tupleTypes != null) {
-                        tupleType.tupleTypes.forEach(this::ensureTypeSymbol);
+                    if (tupleType.getTupleTypes() != null) {
+                        tupleType.getTupleTypes().forEach(this::ensureTypeSymbol);
                     }
                     if (tupleType.restType != null) {
                         ensureTypeSymbol(tupleType.restType);

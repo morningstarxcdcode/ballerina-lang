@@ -750,7 +750,7 @@ public class BallerinaSemanticModel implements SemanticModel {
             TypeSymbol typeSymbol = typesFactory.getTypeDescriptorSafe(bType, bType.tsymbol);
             return Optional.ofNullable(typeSymbol);
 
-        } catch (Exception _) {
+        } catch (Exception e) {
             // Handle any type resolution errors gracefully
             return Optional.empty();
         }
@@ -785,7 +785,7 @@ public class BallerinaSemanticModel implements SemanticModel {
             }
 
             BType determinedType = getDeterminedType(node, range);
-            return resolveTypeSafely(determinedType, "typeOfSafe for range: " + range);
+            return resolveTypeSafely(determinedType);
 
         } catch (Exception e) {
             // Comprehensive error handling - any failure in the pipeline
@@ -811,7 +811,7 @@ public class BallerinaSemanticModel implements SemanticModel {
                 return Optional.empty();
             }
 
-            return typeSafe(node.location().lineRange());
+            return typeOfSafe(node.location().lineRange());
 
         } catch (Exception e) {
             // Handle any errors in location mapping or type resolution
@@ -855,7 +855,7 @@ public class BallerinaSemanticModel implements SemanticModel {
     private <T> T executeSemanticOperation(SemanticOperation<T> operation) {
         try {
             return operation.execute();
-        } catch (Exception _) {
+        } catch (Exception e) {
             // Handle any unexpected errors
             return null;
         }
