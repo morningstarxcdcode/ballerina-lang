@@ -1,0 +1,21 @@
+jobs:
+- job: Windows
+  pool:
+    vmImage: 'VS2017-Win2016'
+  timeoutInMinutes: 150
+  variables:
+    GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
+  steps:
+  - checkout: self
+    submodules: true
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '8.12.0'
+  - task: CacheBeta@0
+    inputs:
+      key: gradle | $(Agent.OS)
+      path: $(GRADLE_USER_HOME)
+    displayName: Gradle build cache
+  - script: |
+      ./gradlew build -Dorg.gradle.parallel=false -x :language-server:language-server-core:test -x :ballerina-packerina:test -x :ballerina-lang:test -x :ballerina-http:test -x :ballerina-file:test -x :ballerina-task:test -x :ballerina-kafka:test -x :jballerina-unit-test:test -x :jballerina-integration-test:test -x javadoc --stacktrace -scan --console=plain --no-daemon
+    displayName: 'Ballerina Windows Build'

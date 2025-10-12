@@ -1,0 +1,34 @@
+Code coverage is not yet supported with single bal files. Ignoring the flag and continuing the test run...
+warning: ignoring --includes flag since code coverage is not enabled
+Compiling source
+	bal-test-with-init-failure.bal
+
+Running Tests
+
+	bal-test-with-init-failure.bal
+
+	testFunc has failed.
+
+
+		[fail] testFunc:
+
+		    error("{ballerina}DivisionByZero",message=" / by zero")
+				callableName: ..<init> moduleName: a fileName: bal-test-with-init-failure.bal lineNumber: 19
+				callableName: testFunc  fileName: bal-test-with-init-failure.bal lineNumber: 23
+				callableName: testFunc$lambda0$  fileName: bal-test-with-init-failure.bal lineNumber: 27
+				callableName: call moduleName: ballerina.lang.function.0 fileName: function.bal lineNumber: 37
+				callableName: executeTestFunction moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 128
+				callableName: executeNonDataDrivenTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 74
+				callableName: executeTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 30
+				callableName: executeTests moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 81
+				callableName: startSuite moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 53
+				callableName: __execute__  fileName: bal-test-with-init-failure.bal lineNumber: 31
+			
+
+
+		0 passing
+		1 failing
+		0 skipped
+
+		Test execution time :*****s
+error: there are test failures

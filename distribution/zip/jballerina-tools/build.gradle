@@ -1,0 +1,538 @@
+/*
+ * Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+plugins {
+    id 'base'
+    id 'repositories'
+}
+
+configurations.all {
+    resolutionStrategy.preferProjectModules()
+}
+
+configurations {
+    dist {
+      transitive false
+    }
+    distBal {
+        transitive false
+    }
+    langserverLib {
+        transitive false
+    }
+    datamapperLib {
+        transitive false
+    }
+    ballerinaZip {
+        transitive false
+    }
+    debugAdapterLauncher {
+        transitive false
+    }
+    debugAdapterLib {
+        transitive false
+    }
+    jacocoAgentLib {
+        transitive false
+    }
+    docerina
+    bin
+    bir
+    birJar
+    balSource
+    balDoc
+    balxSource
+    balxBir {
+        transitive false
+    }
+    zip
+    bala
+    resourceFiles
+    staticFiles
+    balx
+    unzipped
+    distributionBala
+}
+
+dependencies {
+    dist libs.jackson.databind
+    dist libs.jackson.core
+    dist libs.jackson.annotations
+    dist libs.jackson.dataformat.yaml
+    // dist 'org.ow2.asm:asm:6.2.1'
+    dist libs.fasterxml.woodstox.core
+    dist libs.codehaus.woodstox.stax2.api
+    dist libs.apache.commons.compress
+    dist libs.tongfei.progressbar
+    dist libs.jline
+    dist libs.apache.commons.text
+    dist libs.mustache.java.compiler
+
+    dist libs.jetbrains.kotlin.stdlib
+    dist libs.jetbrains.kotlin.stdlib.common
+    dist libs.ow2.asm
+    dist libs.ow2.asm.analysis
+    dist libs.ow2.asm.tree
+    dist libs.ow2.asm.util
+    dist libs.jackson.datatype.jsr310
+
+    // Following dependencies are required for lang-server
+    dist libs.sqlite.jdbc;
+
+    // Following dependencies are required for transactions
+    dist libs.atomikos.transactions.jta
+    dist libs.atomikos.transactions.api
+    dist libs.atomikos.util
+    dist libs.atomikos.transactions
+
+    // Following dependencies are required for testerina
+    dist libs.jacoco.core
+    dist libs.jacoco.report
+    dist libs.ow2.asm.commons
+    dist libs.java.diff.utils
+    jacocoAgentLib "org.jacoco:org.jacoco.agent:${libs.versions.jacocoVersion.get()}:runtime"
+
+    dist project(':ballerina-tools-api')
+    dist project(':ballerina-parser')
+    dist project(':ballerina-tools-api')
+    dist project(':central-client')
+    dist project(':ballerina-cli')
+    dist project(':ballerina-rt')
+    dist project(':ballerina-linter')
+    dist project(':ballerina-profiler')
+    dist project(':testerina:testerina-core')
+    dist project(':formatter:formatter-core')
+    dist project(':formatter:formatter-cli')
+    dist project(':semver-checker:semver-checker-core')
+    dist project(':semver-checker:semver-checker-cli')
+    dist project(':ballerina-bindgen')
+    dist project(':maven-resolver')
+    dist project(':diagram-util')
+    dist project(':syntax-api-calls-gen')
+    dist project(':language-server:language-server-commons')
+    dist project(':docerina')
+    dist project(':testerina:testerina-runtime')
+    dist project(':toml-parser')
+    docerina project(':docerina-gradle-plugin')
+    dist project(':ballerina-shell:shell-core')
+    dist project(':ballerina-shell:shell-cli')
+    dist project(':compiler-plugins:package-semantic-analyzer')
+    dist project(':compiler-plugins:configurable-schema-generator')
+    dist project(':identifier-util')
+
+    datamapperLib project(':ballerinalang-data-mapper')
+
+    langserverLib project(path: ':language-server:language-server-core', configuration: 'lib')
+    langserverLib project(':language-server:language-server-stdio-launcher')
+    langserverLib project(':language-server:language-server-cli')
+    langserverLib project(':language-server:language-server-core')
+    langserverLib project(':ls-extensions:json-to-record-converter')
+    langserverLib project(':ls-extensions:performance-analyzer-services')
+    langserverLib project(':ls-extensions:partial-parser')
+    langserverLib project(':ls-extensions:trigger-service')
+    langserverLib project(':ls-extensions:bal-shell-service')
+    langserverLib project(':xml-to-record-converter')
+
+    debugAdapterLib project(path: ':debug-adapter:debug-adapter-core', configuration: 'lib')
+    debugAdapterLib project(':debug-adapter:debug-adapter-cli')
+    debugAdapterLib project(':debug-adapter:debug-adapter-core')
+
+    balSource project(path: ':jballerina', configuration: 'source')
+
+    balxSource project(path: ':jballerina', configuration: 'sourceBalx')
+//    distBal project(path: ':jballerina', configuration: 'bala')
+    dist project(path: ':jballerina', configuration: 'jar')
+    bin project(path: ':jballerina', configuration: 'bin')
+    staticFiles project(path: ':jballerina', configuration: 'staticFiles')
+    resourceFiles project(path: ':jballerina', configuration: 'resourceFiles')
+
+    distBal project(path: ':testerina:testerina-core', configuration: 'distributionBala')
+    balSource project(path: ':testerina:testerina-core', configuration: 'balSource')
+
+    // ballerinax module cache
+    balxBir project(path: ':ballerina-lang:jballerina.java', configuration: 'bir')
+
+//    balDoc project(path: ':ballerina-transactions', configuration: 'balDoc')
+
+    // Lang Libs
+    balDoc project(path: ':ballerina-lang:internal', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:annotations', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:jballerina.java', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:array', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:decimal', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:error', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:floatingpoint', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:function', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:future', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:integer', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:map', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:natural', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:object', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:stream', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:table', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:string', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:typedesc', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:value', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:xml', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:bool', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:runtime', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:query', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:transaction', configuration: 'balDoc')
+    balDoc project(path: ':ballerina-lang:regexp', configuration: 'balDoc')
+
+    // ballerinax modules
+    balDoc project(path: ':ballerina-lang:jballerina.java', configuration: 'balDoc')
+
+    // testerina modules
+    balDoc project(path: ':testerina:testerina-core', configuration: 'balDoc')
+
+
+    distributionBala project(path: ':ballerina-lang:annotations', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:internal', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:jballerina.java', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:array', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:bool', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:runtime', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:decimal', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:error', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:floatingpoint', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:function', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:future', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:integer', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:map', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:natural', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:object', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:query', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:stream', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:string', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:table', configuration: 'distributionBala')
+//    distributionBala project(path: ':ballerina-langlib:test', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:transaction', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:typedesc', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:value', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:xml', configuration: 'distributionBala')
+    distributionBala project(path: ':ballerina-lang:regexp', configuration: 'distributionBala')
+
+    distributionBala project(path: ':testerina:testerina-core', configuration: 'distributionBala')
+}
+
+
+tasks.register('configured') {
+    configurations.distBal.allDependencies.withType(ProjectDependency) {
+        def path = it.getDependencyProject().path
+//        dependencies.add("bir", dependencies.project(path: path, configuration: 'bir'))
+//        dependencies.add("birJar", dependencies.project(path: path, configuration: 'birJar'))
+    }
+
+}
+
+def copyJarSpec = {
+    base -> copySpec {
+        from configurations.dist
+        into(base + 'bre/lib')
+    }
+}
+
+def copyBalaSpec = {
+    path -> copySpec {
+        from configurations.distBal
+        into(path + 'lib')
+        fileMode 0644
+    }
+}
+
+def copyBirSpec = {
+    path -> copySpec {
+        from configurations.bir
+        into(path + 'bir-cache')
+    }
+}
+
+def copyBirJarSpec = {
+    path -> copySpec {
+        from configurations.birJar
+        into(path + 'bre/lib')
+    }
+}
+
+def copyBalxSpec = {
+    path -> copySpec {
+        from configurations.balx
+        into(path + 'lib/balx')
+    }
+}
+
+def copyToDistCache = {
+    path -> copySpec {
+        from configurations.distributionBala.collect { zipTree(it) }
+        into(path + 'repo')
+    }
+}
+
+def copyStaticSpec = {
+    path -> copySpec {
+        from configurations.staticFiles
+        into(path)
+    }
+}
+
+def copyDocerinaUi = {
+    path -> copySpec {
+        from project(':docerina').file('src/main/resources/doc-ui')
+        into(path + 'lib/tools/doc-ui')
+    }
+}
+
+def copyResourceSpec = {
+    path -> copySpec {
+        from configurations.resourceFiles
+        into("$path/bre")
+    }
+}
+
+def copyBinSpec = {
+    path -> copySpec {
+        from configurations.bin
+        filter { line -> line.replace('${project.version}', "$project.version") }
+        into(path + 'bin')
+    }
+}
+
+def copyAndRenameJaCoCoAgent = {
+    path -> copySpec {
+        from configurations.jacocoAgentLib
+        into("$path/bre/lib")
+        rename "org.jacoco.agent-${libs.versions.jacocoVersion.get()}-runtime.jar", "jacocoagent.jar"
+    }
+}
+
+def copyLangServerBinSpec = {
+    path -> copySpec {
+        from('resources/language-server-launcher.sh')
+        from('resources/language-server-launcher.bat')
+        into(path + 'lib/tools/lang-server/launcher')
+    }
+}
+
+def copyCompletionFile = {
+    path -> copySpec {
+        from('resources/command-completion')
+        into(path + 'resources/command-completion')
+    }
+}
+
+def copyProfilerTools = {
+    path -> copySpec {
+        from('resources/profiler')
+        into(path + 'resources/profiler')
+    }
+}
+
+def copyDebugAdapterLibsSpec = {
+    path -> copySpec {
+        from configurations.debugAdapterLib
+        into(path + 'lib/tools/debug-adapter/lib')
+     }
+}
+
+def copyBallerinaZipSpec = {
+    path -> copySpec {
+        configurations.ballerinaZip.asFileTree.each {
+            from(zipTree(it)) { includeEmptyDirs false }
+            eachFile { f ->
+                f.path = f.path.replaceFirst("ballerina-${project.version}/", '')
+            }
+        }
+        into(path)
+    }
+}
+
+def copyLangServerLibsSpec = {
+    path -> copySpec {
+        from configurations.langserverLib
+        into(path + 'lib/tools/lang-server/lib')
+    }
+}
+
+def copyDataMapperLibsSpec = {
+    path -> copySpec {
+        from configurations.datamapperLib
+        into(path + 'lib/tools/lang-server/lib')
+    }
+}
+
+def apiDocsSpec = {
+    path -> copySpec {
+        from generateDocs.outputs.files
+        into("$path/docs")
+    }
+}
+
+tasks.register('extractBalxBirs', Copy) {
+//    def path = "$buildDir/bir-cache"
+//    from configurations.balxBir.files
+//    into path
+}
+
+// Fix for windows class path too long issue
+tasks.register('pathingJar', Jar) {
+    archiveAppendix = "pathing"
+    doFirst {
+        manifest {
+            attributes "Class-Path": configurations.docerina.files.collect {
+                it.toURI().toString()
+            }.join(' ')
+        }
+    }
+}
+
+tasks.register('copyApiDocs', Copy) {
+    dependsOn configurations.balDoc
+    from configurations.balDoc.files
+    into "$buildDir/api-docs"
+    exclude "index.html"
+    exclude "html-template-resources"
+    exclude "syntax-highlighter"
+}
+
+tasks.register('generateDocs', JavaExec) {
+    dependsOn pathingJar
+    dependsOn copyApiDocs
+    dependsOn ':docerina-gradle-plugin:build'
+    outputs.dir("$buildDir/api-docs")
+    outputs.cacheIf { true }
+    systemProperty("ballerina.home", "$buildDir")
+    classpath = files(pathingJar.archiveFile)
+    mainClass = 'org.ballerinalang.plugin.gradle.doc.DocerinaGen'
+    args("$buildDir/api-docs")
+}
+
+tasks.register('createApiDocsZip', Zip) {
+    from generateDocs.outputs.files
+    archiveFileName = "ballerina-api-docs-${project.version}.zip"
+}
+
+tasks.register('createZip', Zip) {
+    def basePath = '/' + project.name + '-' + project.version + '/'
+    with copyJarSpec(basePath)
+    with copyBirSpec(basePath)
+//    with copyBirJarSpec(basePath)
+    with copyBalaSpec(basePath)
+    with copyBalxSpec(basePath)
+    with copyBinSpec(basePath)
+    with copyLangServerLibsSpec(basePath)
+    with copyDataMapperLibsSpec(basePath)
+    with copyLangServerBinSpec(basePath)
+    with copyBallerinaZipSpec(basePath)
+    with copyDebugAdapterLibsSpec(basePath)
+    with copyCompletionFile(basePath)
+    with copyProfilerTools(basePath)
+    with apiDocsSpec(basePath)
+    with copyStaticSpec(basePath)
+    with copyDocerinaUi(basePath)
+    with copyResourceSpec(basePath)
+    with copyAndRenameJaCoCoAgent(basePath)
+    with copyToDistCache(basePath)
+}
+
+tasks.register('updateBalHome', Copy) {
+    def installDir = ""
+    with copyJarSpec(installDir)
+    with copyBirSpec(installDir)
+//    with copyBirJarSpec(installDir)
+    with copyBalaSpec(installDir)
+    with copyBalxSpec(installDir)
+    with copyBinSpec(installDir)
+    with copyLangServerLibsSpec(installDir)
+    with copyDataMapperLibsSpec(installDir)
+    with copyLangServerBinSpec(installDir)
+    with copyBallerinaZipSpec(installDir)
+    with copyDebugAdapterLibsSpec(installDir)
+    with copyCompletionFile(installDir)
+    with copyProfilerTools(installDir)
+    with apiDocsSpec(installDir)
+    with copyStaticSpec(installDir)
+    with copyDocerinaUi(installDir)
+    with copyResourceSpec(installDir)
+    with copyAndRenameJaCoCoAgent(installDir)
+    into System.getenv('BAL_HOME')
+}
+
+tasks.register('createDistribution', Copy) {
+    mustRunAfter(':language-server:language-server-core:createZip')
+    def filePath = "$buildDir/extracted-distributions/${project.name}-${project.version}"
+    file(filePath).mkdirs()
+    with copyJarSpec("")
+    with copyBirSpec("")
+//    with copyBirJarSpec("")
+    with copyBalaSpec("")
+    with copyBalxSpec("")
+    with copyBinSpec("")
+    with copyLangServerLibsSpec("")
+    with copyDataMapperLibsSpec("")
+    with copyLangServerBinSpec("")
+    with copyBallerinaZipSpec("")
+    with copyDebugAdapterLibsSpec("")
+    with copyCompletionFile("")
+    with copyProfilerTools("")
+    with apiDocsSpec("")
+    with copyStaticSpec("")
+    with copyDocerinaUi("")
+    with copyResourceSpec("")
+    with copyAndRenameJaCoCoAgent("")
+    with copyToDistCache("")
+    destinationDir=file(filePath)
+}
+
+build {
+    dependsOn createZip
+    dependsOn createDistribution
+    // finalizedBy ':ballerina-tools-integration-test:test'
+}
+
+artifacts {
+    bala configurations.distBal.files
+    zip file: file("$buildDir/distributions/${project.name}-${project.version}.zip"), builtBy: createZip
+    unzipped file: file("$buildDir/extracted-distributions/${project.name}-${project.version}"), builtBy: createDistribution
+}
+
+// This section makes sure that checkstyle/spotbug runs when dist is build.
+tasks.whenTaskAdded { task ->
+    if (task.name == 'check') {
+        configurations.dist.dependencies
+                .findAll { it instanceof ProjectDependency }
+                .each { dependency ->
+                    dependency.dependencyProject.afterEvaluate {
+                        def dependencyCheck = tasks.named('check')
+                        task.dependsOn dependencyCheck
+                    }
+                }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact source: createZip, extension: 'zip'
+        }
+    }
+}
+
+tasks.createZip.dependsOn(':ballerina-io-internal:jar')
+tasks.createZip.dependsOn(':ballerina-io-internal:copyInteropImports')
+tasks.createDistribution.dependsOn(':ballerina-io-internal:jar')
+tasks.createDistribution.dependsOn(':ballerina-io-internal:copyInteropImports')

@@ -1,0 +1,73 @@
+Compiling source
+	wso2/testExecutionWithModuleInitFailure:0.0.0
+
+Running Tests
+
+	testExecutionWithModuleInitFailure.moduleD
+		[pass] testFunc
+
+
+		1 passing
+		0 failing
+		0 skipped
+
+		Test execution time :*****s
+
+	testExecutionWithModuleInitFailure
+		[pass] testFunc
+		[pass] testFunc2
+
+
+		2 passing
+		0 failing
+		0 skipped
+
+		Test execution time :*****s
+
+	testExecutionWithModuleInitFailure.moduleA
+		[pass] testFunc
+
+
+		1 passing
+		0 failing
+		0 skipped
+
+		Test execution time :*****s
+
+	testExecutionWithModuleInitFailure.moduleC
+		[pass] testFunc
+
+
+		1 passing
+		0 failing
+		0 skipped
+
+		Test execution time :*****s
+
+	testExecutionWithModuleInitFailure.moduleB
+
+	testFunc has failed.
+
+
+		[fail] testFunc:
+
+		    error("{ballerina}DivisionByZero",message=" / by zero")
+				callableName: ..<init> moduleName: wso2.testExecutionWithModuleInitFailure.moduleB.0.a fileName: main.bal lineNumber: 19
+				callableName: testFunc moduleName: wso2.testExecutionWithModuleInitFailure.moduleB$test.0.tests.test fileName: tests/test.bal lineNumber: 22
+				callableName: testFunc$lambda0$ moduleName: wso2.testExecutionWithModuleInitFailure.moduleB$test.0.tests.test_execute-generated_*****lineNumber: 4
+				callableName: call moduleName: ballerina.lang.function.0 fileName: function.bal lineNumber: 37
+				callableName: executeTestFunction moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 128
+				callableName: executeNonDataDrivenTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 74
+				callableName: executeTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 30
+				callableName: executeTests moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 81
+				callableName: startSuite moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 53
+				callableName: __execute__ moduleName: wso2.testExecutionWithModuleInitFailure.moduleB$test.0.tests.test_execute-generated_*****lineNumber: 8
+			
+
+
+		0 passing
+		1 failing
+		0 skipped
+
+		Test execution time :*****s
+error: there are test failures

@@ -1,0 +1,31 @@
+Code coverage is not yet supported with single bal files. Ignoring the flag and continuing the test run...
+warning: ignoring --includes flag since code coverage is not enabled
+Compiling source
+	skip-when-afterEach-fails.bal
+WARNING [skip-when-afterEach-fails.bal:(30:5,30:18)] unused variable 'i'
+
+Running Tests
+
+	skip-when-afterEach-fails.bal
+	[fail] afterEach[after each test function for the test]:
+	    error("{ballerina}DivisionByZero",message=" / by zero")
+			callableName: afterEach  fileName: skip-when-afterEach-fails.bal lineNumber: 30
+			callableName: afterEach$lambda1$  fileName: skip-when-afterEach-fails.bal lineNumber: 55
+			callableName: call moduleName: ballerina.lang.function.0 fileName: function.bal lineNumber: 37
+			callableName: executeFunction moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 142
+			callableName: executeFunctions moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 96
+			callableName: executeAfterEachFunctions moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 80
+			callableName: executeTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 37
+			callableName: executeTests moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 81
+			callableName: startSuite moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 53
+			callableName: __execute__  fileName: skip-when-afterEach-fails.bal lineNumber: 63
+		
+		[pass] test1
+
+
+		1 passing
+		0 failing
+		2 skipped
+
+		Test execution time :*****s
+error: there are test failures

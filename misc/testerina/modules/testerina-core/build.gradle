@@ -1,0 +1,69 @@
+/*
+ * Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+plugins {
+    id 'ballerinaStdLibBuild'
+}
+
+configurations {
+    dist {
+        transitive false
+    }
+}
+
+dependencies {
+    implementation project(':testerina:testerina-runtime')
+    implementation project(':testerina:testerina-compiler-plugin')
+    implementation project(':ballerina-lang')
+    implementation project(':ballerina-tools-api')
+    implementation project(':ballerina-runtime')
+    implementation project(':ballerina-parser')
+    implementation project(':ballerina-lang:jballerina.java')
+    implementation libs.gson
+    implementation libs.testng
+    implementation libs.java.diff.utils
+
+    interopImports libs.java.diff.utils
+
+    testImplementation libs.slf4j.jdk14
+    testImplementation libs.swagger.models
+    testImplementation libs.swagger.parser
+    testImplementation libs.jknack.handlebars
+}
+
+jar {
+    archiveFileName.set("${project.name}-${project.version}.jar")
+}
+
+tasks.register('updateVersion') {
+    doLast {
+        ant.replaceregexp(
+                file: "${project.buildDir}/ballerina-src/Ballerina.toml",
+                match: "${project.name}-(.*).jar",
+                replace: "${project.name}-${project.version}.jar"
+        )
+    }
+}
+
+copyBallerinaProject.finalizedBy(updateVersion)
+
+ballerinaLangLibBuild {
+    skipBootstrap = 'true'
+}
+
+tasks.generateMetadataFileForMavenJavaPublication.dependsOn(":testerina:testerina-core:copyInteropImports")
+description = 'Ballerina - Testerina - Core'

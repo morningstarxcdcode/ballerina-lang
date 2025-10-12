@@ -1,0 +1,35 @@
+Code coverage is not yet supported with single bal files. Ignoring the flag and continuing the test run...
+warning: ignoring --includes flag since code coverage is not enabled
+Compiling source
+	failed-after-groups-test.bal
+WARNING [failed-after-groups-test.bal:(37:5,37:17)] unused variable 'b'
+
+Running Tests
+
+	failed-after-groups-test.bal
+	[fail] afterGroupsFunc1[after test group function for the test]:
+	    error("{ballerina}DivisionByZero",message=" / by zero")
+			callableName: afterGroupsFunc1  fileName: failed-after-groups-test.bal lineNumber: 37
+			callableName: afterGroupsFunc1$lambda2$  fileName: failed-after-groups-test.bal lineNumber: 80
+			callableName: call moduleName: ballerina.lang.function.0 fileName: function.bal lineNumber: 37
+			callableName: executeFunction moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 142
+			callableName: executeFunctions moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 96
+			callableName: executeAfterGroupFunctions moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 86
+			callableName: executeTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 38
+			callableName: executeTests moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 81
+			callableName: startSuite moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 53
+			callableName: __execute__  fileName: failed-after-groups-test.bal lineNumber: 91
+		
+		[pass] testFunction
+		[pass] testFunction2
+		[pass] testFunction3
+		[pass] testFunction4
+		[pass] testFunction5
+
+
+		5 passing
+		0 failing
+		0 skipped
+
+		Test execution time :*****s
+error: there are test failures

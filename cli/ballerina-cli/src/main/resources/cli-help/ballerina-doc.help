@@ -1,0 +1,52 @@
+NAME
+       ballerina-doc - Build the documentation of a Ballerina package
+
+SYNOPSIS
+       bal doc [OPTIONS] [<package>]
+
+
+DESCRIPTION
+       Generates the documentation of the current package and writes it to
+       the 'target/apidocs' directory.
+
+
+OPTIONS
+       -e, --exclude
+           Exclude the given list of modules.
+          
+       -o <output>, --output <output>
+           Write the output to the given directory.
+
+       --offline
+           Proceed without accessing the network. Attempt to proceed with the
+           previously downloaded dependencies in local caches, will fail
+           otherwise.
+
+       --sticky
+           Attempt to stick to the dependency versions available in the
+           'Dependencies.toml' file. If the file doesn't exist, this option is
+           ignored.
+
+       --target-dir <path>
+           Target directory path.
+
+       --show-dependency-diagnostics
+           Print the diagnostics that are related to the dependencies. By default, these
+           diagnostics are not printed to the console.
+
+       --optimize-dependency-compilation
+           [EXPERIMENTAL] Enables memory-efficient compilation of package dependencies
+           using separate processes. This can help prevent out-of-memory issues during
+           the initial compilation with a clean central cache.
+
+       --experimental
+           Enable experimental language features.
+
+
+EXAMPLES
+       Generate API documentation for the current package.
+           $ bal doc
+
+       Generate API documentation for a Ballerina package in a given path.
+       The file path can be relative or absolute.
+           $ bal doc <package-path>

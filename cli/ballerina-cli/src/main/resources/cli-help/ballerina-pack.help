@@ -1,0 +1,42 @@
+NAME
+       ballerina-pack - Create distribution format of the current package
+
+SYNOPSIS
+       bal pack [OPTIONS] [<package>]
+
+
+DESCRIPTION
+       Compiles and packages the current package into a '.bala' file and writes
+       it to the 'target/bala' directory.
+
+
+OPTIONS
+       --offline
+           Proceed without accessing the network. Attempt to proceed with the
+           previously downloaded dependencies in local caches, will fail
+           otherwise.
+
+       --sticky
+       	   Attempt to stick to the dependency versions available in the
+       	   'Dependencies.toml' file. If the file doesn't exist, this option is
+       	   ignored.
+
+       --target-dir
+           Target directory path.
+
+       --show-dependency-diagnostics
+           Print the diagnostics that are related to the dependencies. By default, these
+           diagnostics are not printed to the console.
+
+       --optimize-dependency-compilation
+           [EXPERIMENTAL] Enables memory-efficient compilation of package dependencies
+           using separate processes. This can help prevent out-of-memory issues during
+           the initial compilation with a clean central cache.
+
+       --experimental
+           Enable experimental language features.
+
+
+EXAMPLES
+       Pack the current package into .bala file.
+           $ bal pack

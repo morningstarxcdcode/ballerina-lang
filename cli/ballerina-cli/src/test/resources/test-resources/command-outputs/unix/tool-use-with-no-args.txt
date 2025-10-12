@@ -1,0 +1,5 @@
+WARNING: This command is deprecated and may be removed in a future version.
+ballerina: tool id is not provided.
+
+USAGE:
+    bal tool use <tool-id>:<version>

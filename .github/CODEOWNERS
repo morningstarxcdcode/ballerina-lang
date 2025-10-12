@@ -1,0 +1,45 @@
+# This is a comment.
+# Each line is a file pattern followed by one or more owners.
+
+# See: https://help.github.com/articles/about-codeowners/
+
+*       @keizer619 @gimantha 
+
+# Components
+/compiler/ @sameerajayasoma @hasithaa @gimantha @MaryamZi
+/ballerina-shell/ @KavinduZoysa
+/build-config/ @keizer619
+/bvm/ @warunalakshitha
+/cli/ @azinneera
+/distribution/ @keizer619
+/gradle/ @keizer619
+/langlib/ @sameerajayasoma @hasithaa @gimantha @MaryamZi
+/semtypes/ @gimantha @MaryamZi 
+/language-server/ @KavinduZoysa
+/misc/ballerina-bindgen/ @warunalakshitha
+/misc/compiler-plugins/ @azinneera
+/misc/debug-adapter/ @NipunaRanasinghe
+/misc/docerina/ @keizer619
+/misc/identifier-util/ @warunalakshitha
+/misc/json-to-record-converter/ @NipunaRanasinghe
+/misc/semver-checker/ @NipunaRanasinghe
+/misc/testerina/ @azinneera @Dilhasha
+/misc/xml-to-record-converter/ @NipunaRanasinghe
+/project-api/ @azinneera @sameerajayasoma
+/performance/ @anuruddhal
+/tests/ballerina-compiler-api-test/ @MaryamZi @gimantha
+/tests/ballerina-compiler-plugin-test/ @MaryamZi @gimantha
+/tests/ballerina-spec-conformance-tests/ @MaryamZi @gimantha
+/tests/ballerina-test-utils/ @MaryamZi @gimantha @azinneera @KavinduZoysa @warunalakshitha
+/tests/ballerina-tools-integration-test/ @KavinduZoysa
+/tests/jballerina-benchmark-test/ @MaryamZi @gimantha
+/tests/jballerina-debugger-integration-test/ @NipunaRanasinghe
+/tests/jballerina-integration-test/ @warunalakshitha
+/tests/jballerina-semtype-test/ @MaryamZi @gimantha
+/tests/jballerina-unit-test/ @MaryamZi @gimantha
+/tests/language-server-integration-tests/ @KavinduZoysa
+/tests/launch-listener-test-util-libs/ @MaryamZi @gimantha @azinneera @KavinduZoysa @warunalakshitha
+/tests/testerina-integration-test/ @azinneera
+
+# CODEOWNERS file
+/.github/CODEOWNERS @sameerajayasoma @gimantha @MaryamZi @hasithaa @keizer619

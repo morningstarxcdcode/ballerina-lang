@@ -1,0 +1,100 @@
+NAME
+       ballerina-build - Compiles the current package
+
+SYNOPSIS
+       bal build [OPTIONS] [<package>|<source-file>]
+
+
+DESCRIPTION
+       Compile a package and its dependencies to produce a
+       standalone executable JAR (Java Archive) file or compile a workspace
+       and generate executables.
+
+       Build writes the resulting executable to the `target/bin` directory
+       when compiling the current package.
+
+       Build writes the resulting executable to the current directory
+       when compiling a single '.bal' file. The generated executable is named
+       after the source file.
+
+       Note: Building individual '.bal' files of a package is not allowed. For
+       workspaces, the executable is generated only for packages that do not
+       have dependents except when the package is built explicitly.
+
+
+OPTIONS
+       --export-openapi
+           Generate OpenAPI definitions for service declarations in the current
+           package.
+
+       --cloud <provider>
+           Generate cloud artifacts: '--cloud=k8s' for Kubernetes
+           and '--cloud=docker' for Docker.
+
+       --list-conflicted-classes
+           List the conflicting classes of conflicting JARs in the package.
+
+       -o <output>, --output <output>
+           Write the output to the given file. These options will only work
+           for the single '.bal' file scenario.
+
+       --observability-included
+           Include the dependencies that are required to enable observability.
+
+       --offline
+           Proceed without accessing the network. Attempt to proceed with the
+           previously downloaded dependencies in local caches, will fail
+           otherwise.
+
+       --sticky
+       	   Attempt to stick to the dependency versions available in the
+       	   'Dependencies.toml' file. If the file doesn't exist, this option is
+       	   ignored.
+
+       --target-dir <path>
+           Target directory path.
+
+       --graalvm
+           Generate a GraalVM native image. Native image generation is an
+           experimental feature which supports only a limited set of
+           functionality.
+
+       --graalvm-build-options
+           Additional build options to be passed to the GraalVM native image.
+
+       --remote-management
+           Include the dependencies that are required to enable remote package
+           management service.
+
+       --show-dependency-diagnostics
+           Print the diagnostics that are related to the dependencies. By default, these
+           diagnostics are not printed to the console.
+
+       --optimize-dependency-compilation
+           [EXPERIMENTAL] Enables memory-efficient compilation of package dependencies
+           using separate processes. This can help prevent out-of-memory issues during
+           the initial compilation with a clean central cache.
+
+       --experimental
+           Enable experimental language features.
+
+
+EXAMPLES
+       Build the current package or the workspace. This will generate an 'app.jar' file in the
+       'target/bin' directory of the package. For workspaces, this will generate executables
+       for all packages that does not have dependants in the workspace.
+           $ bal build
+
+       Build a single '.bal' file. This will generate an 'app.jar' file in the
+       current directory.
+           $ bal build app.bal
+
+       Build a specific package in the workspace. This will generate an
+       executable for the specified package.
+              $ bal build <package-path-in-workspace>
+
+       Build the 'app' package from a different directory.
+           $ bal build <app-package-path>
+
+       Build the package with additional GraalVM native image options.
+           $ bal build --graalvm --graalvm-build-options="--static --enable-monitoring"

@@ -1,0 +1,122 @@
+/*
+ * Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+plugins {
+    id 'javaProject'
+    id 'ballerinaLangLibLoad'
+}
+
+configurations {
+    testLibs {
+        transitive false
+    }
+    balRuntime
+    jballerinaTools
+    ballerina {
+        transitive false
+    }
+    testUtils {
+        transitive false
+    }
+    observeTestUtilsBala {
+        transitive false
+    }
+    observeTestUtilsJar {
+        transitive false
+    }
+    launchListenerTestUtils {
+        transitive false
+    }
+}
+
+dependencies {
+    implementation 'org.ballerinalang:ballerina-lang:0.992.0-m2-SNAPSHOT'
+    implementation project(':ballerina-io-internal')
+    implementation project(':ballerina-lang')
+    implementation project(':ballerina-lang:annotations')
+    implementation project(':ballerina-runtime')
+    implementation project(':ballerina-cli')
+    implementation project(':ballerina-lang:jballerina.java')
+    implementation project(path: ':ballerina-test-utils', configuration: 'shadow')
+    implementation project(':ballerina-shell:shell-core')
+    implementation project(':ballerina-shell:shell-cli')
+    implementation libs.slf4j.api
+
+    balRuntime project(':ballerina-runtime')
+    testRuntimeOnly project(path: ':ballerina-lang:annotations', configuration: 'distributionBirJar')
+
+    testImplementation libs.slf4j.jdk14
+    testImplementation libs.netty.transport
+    testImplementation libs.netty.codec.http
+    testImplementation libs.netty.codec.http2
+    testImplementation libs.netty.handler
+    testImplementation libs.snakeyaml
+    testImplementation libs.awaitility
+    testImplementation libs.hsqldb
+    testImplementation libs.bal.messaging.broker.amqp
+    testImplementation libs.apache.commons.text
+    testImplementation libs.testng
+
+    testUtils project(path: ':ballerina-test-utils', configuration: 'shadow')
+    jballerinaTools project(path: ':jballerina-tools', configuration: 'zip')
+
+    testLibs 'org.hsqldb:hsqldb:2.7.1'
+
+    distributionBala project(path: ':ballerina-io-internal', configuration: 'distributionBala')
+}
+
+tasks.register('createBre', Copy) {
+    from configurations.balRuntime
+    into '$buildDir/bre/lib'
+}
+
+test {
+    // make sure ballerina zip is built before test run
+    dependsOn ':jballerina-tools:build'
+
+    maxParallelForks = 1
+    systemProperty 'basedir', "$buildDir"
+    systemProperty 'libdir', "$buildDir"
+    systemProperty 'server.zip', configurations.jballerinaTools.asPath
+    systemProperty 'jballerina.server.zip', configurations.jballerinaTools.asPath
+    systemProperty 'java.util.logging.config.file', "$buildDir/resources/test/logging.properties"
+    systemProperty 'ballerina.agent.path', configurations.testUtils.asPath
+    systemProperty 'observability.test.utils.bala', configurations.observeTestUtilsBala.asPath
+    systemProperty 'observability.test.utils.jar', configurations.observeTestUtilsJar.asPath
+    useTestNG() {
+        suites 'src/test/resources/testng.xml'
+    }
+}
+
+clean.doFirst {
+    delete 'data'
+}
+
+description = 'Ballerina - Integration Test'
+
+configurations.all {
+    resolutionStrategy.preferProjectModules()
+}
+
+tasks.register('copyToLib', Copy) {
+    into "${buildDir}/libs"
+    from configurations.testLibs
+}
+
+test.dependsOn(copyToLib)
+tasks.compileTestJava.dependsOn(":ballerina-io-internal:copyInteropImports")
+generateMetadataFileForMavenJavaPublication.dependsOn(copyToLib)

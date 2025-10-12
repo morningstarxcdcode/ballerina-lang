@@ -1,0 +1,22 @@
+setRequiredField function() -> () {
+    %0(RETURN) ();
+    %1(LOCAL) R1;
+    %3(TEMP) string;
+    %4(TEMP) int;
+
+    bb0 {
+        %3 = ConstLoad x;
+        %4 = ConstLoad 1;
+        %1 = NewMap $typedesc$R1{%3:%4};
+        %4 = ConstLoad 2;
+        %3 = ConstLoad x;
+        %1[%3] = %4;
+        %0 = ConstLoad 0;
+        GOTO bb1;
+    }
+    bb1 {
+        return;
+    }
+
+
+}

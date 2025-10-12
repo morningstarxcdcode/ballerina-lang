@@ -1,0 +1,12 @@
+[package]
+org = "samjs"
+name = "package_c"
+version = "0.1.0"
+
+[[package.modules]]
+name = "package_c.mod_c1"
+export = true
+
+[[package.modules]]
+name = "package_c.mod_c2"
+export = true

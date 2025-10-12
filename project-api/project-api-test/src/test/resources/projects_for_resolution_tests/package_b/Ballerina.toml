@@ -1,0 +1,8 @@
+[package]
+org = "samjs"
+name = "package_b"
+version = "0.1.0"
+
+[[package.modules]]
+name = "package_b.mod_b1"
+export = true

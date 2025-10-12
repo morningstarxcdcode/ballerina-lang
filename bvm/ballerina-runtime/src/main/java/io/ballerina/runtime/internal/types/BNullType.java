@@ -1,0 +1,98 @@
+/*
+*  Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+*  WSO2 Inc. licenses this file to you under the Apache License,
+*  Version 2.0 (the "License"); you may not use this file except
+*  in compliance with the License.
+*  You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+*  Unless required by applicable law or agreed to in writing,
+*  software distributed under the License is distributed on an
+*  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+*  KIND, either express or implied.  See the License for the
+*  specific language governing permissions and limitations
+*  under the License.
+*/
+package io.ballerina.runtime.internal.types;
+
+import io.ballerina.runtime.api.Module;
+import io.ballerina.runtime.api.types.NullType;
+import io.ballerina.runtime.api.types.TypeTags;
+import io.ballerina.runtime.api.types.semtype.BasicTypeBitSet;
+import io.ballerina.runtime.api.types.semtype.Builder;
+import io.ballerina.runtime.api.types.semtype.ConcurrentLazySupplier;
+import io.ballerina.runtime.api.types.semtype.SemType;
+
+import java.util.function.Supplier;
+
+/**
+ * {@code BNullType} represents the type of a {@code NullLiteral}.
+ *
+ * @since 0.995.0
+ */
+public sealed class BNullType extends BSemTypeWrapper<BNullType.BNullTypeImpl> implements NullType permits BNeverType {
+
+    private static final BasicTypeBitSet BASIC_TYPE = Builder.getNilType();
+    /**
+     * Create a {@code BNullType} represents the type of a {@code NullLiteral}.
+     *
+     * @param typeName string name of the type
+     * @param pkg package path
+     */
+    public BNullType(String typeName, Module pkg) {
+        this(() -> new BNullTypeImpl(typeName, pkg), typeName, pkg, TypeTags.NULL_TAG, Builder.getNilType());
+    }
+
+    protected BNullType(String typeName, Module pkg, SemType semType, int tag) {
+        this(() -> new BNullTypeImpl(typeName, pkg), typeName, pkg, tag, semType);
+    }
+
+    private BNullType(Supplier<BNullTypeImpl> bNullTypeSupplier, String typeName, Module pkg, int tag,
+                      SemType semType) {
+        super(new ConcurrentLazySupplier<>(bNullTypeSupplier), typeName, pkg, tag, semType);
+    }
+
+    @Override
+    public BasicTypeBitSet getBasicType() {
+        return BASIC_TYPE;
+    }
+
+    protected static final class BNullTypeImpl extends BType implements NullType {
+
+        private BNullTypeImpl(String typeName, Module pkg) {
+            super(typeName, pkg, null, false);
+        }
+
+        @Override
+        public <V extends Object> V getZeroValue() {
+            return null;
+        }
+
+        @Override
+        public <V extends Object> V getEmptyValue() {
+            return null;
+        }
+
+        @Override
+        public int getTag() {
+            return TypeTags.NULL_TAG;
+        }
+
+        @Override
+        public boolean isNilable() {
+            return true;
+        }
+
+        @Override
+        public boolean isReadOnly() {
+            return true;
+        }
+
+        @Override
+        public BasicTypeBitSet getBasicType() {
+            return BASIC_TYPE;
+        }
+    }
+}

@@ -1,0 +1,30 @@
+setNillableField function() -> () {
+    %0(RETURN) ();
+    %1(LOCAL) R2;
+    %3(TEMP) string;
+    %4(TEMP) int|();
+    %5(TEMP) int;
+    %11(TEMP) ();
+
+    bb0 {
+        %3 = ConstLoad x;
+        %5 = ConstLoad 1;
+        %4 = <int|()> %5;
+        %1 = NewMap $typedesc$R2{%3:%4};
+        %5 = ConstLoad 2;
+        %4 = <int|()> %5;
+        %3 = ConstLoad x;
+        %1[%3] = %4;
+        %11 = ConstLoad 0;
+        %4 = <int|()> %11;
+        %3 = ConstLoad x;
+        %1[%3] = %4;
+        %0 = ConstLoad 0;
+        GOTO bb1;
+    }
+    bb1 {
+        return;
+    }
+
+
+}

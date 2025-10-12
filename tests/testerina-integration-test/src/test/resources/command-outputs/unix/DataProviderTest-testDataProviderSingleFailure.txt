@@ -1,0 +1,62 @@
+Compiling source
+	intg_tests/dataproviders:0.0.0
+WARNING [tests/new-data-provider-tests.bal:(121:9,121:21)] unused variable 'a'
+WARNING [tests/new-data-provider-tests.bal:(153:9,153:21)] unused variable 'a'
+
+Running Tests with Coverage
+
+	dataproviders
+
+	testDividingValuesNegative:2 has failed.
+
+		[pass] testDividingValuesNegative#0
+		[pass] testDividingValuesNegative#1
+		[pass] testDividingValuesNegative#3
+		[pass] testDividingValuesNegative#4
+		[pass] testExecutionOfDataValueFailing
+
+		[fail] testDividingValuesNegative#2:
+
+		    [fail data provider for the function testDividingValuesNegative]
+			 error {ballerina/test:0}ExecutionError ("error("{ballerina}DivisionByZero",message=" / by zero")
+				callableName: testDividingValuesNegative moduleName: intg_tests.dataproviders$test.0.tests.new-data-provider-tests fileName: tests/new-data-provider-tests.bal lineNumber: 191
+				callableName: testDividingValuesNegative$lambda14$ moduleName: intg_tests.dataproviders$test.0.tests.test_execute-generated_*****lineNumber: 18
+				callableName: call moduleName: ballerina.lang.function.0 fileName: function.bal lineNumber: 37
+				callableName: executeTestFunction moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 129
+				callableName: executeDataDrivenTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 114
+				callableName: prepareDataDrivenTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 105
+				callableName: executeDataDrivenTestSet moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 63
+				callableName: executeTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 28
+				callableName: executeTests moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 81
+				callableName: startSuite moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 53
+				callableName: __execute__ moduleName: intg_tests.dataproviders$test.0.tests.test_execute-generated_*****lineNumber: 27
+			",functionName="testDividingValuesNegative")
+				callableName: handleTestFuncOutput moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 326
+				callableName: executeTestFunction moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 130
+				callableName: executeDataDrivenTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 114
+				callableName: prepareDataDrivenTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 105
+				callableName: executeDataDrivenTestSet moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 63
+				callableName: executeTest moduleName: ballerina.test.0 fileName: serialExecuter.bal lineNumber: 28
+				callableName: executeTests moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 81
+				callableName: startSuite moduleName: ballerina.test.0 fileName: execute.bal lineNumber: 53
+				callableName: __execute__ moduleName: intg_tests.dataproviders$test.0.tests.test_execute-generated_*****lineNumber: 27
+			
+
+
+		5 passing
+		1 failing
+		0 skipped
+
+		Test execution time :*****s
+
+	dataproviders.module1
+
+
+		No tests found
+
+		Test execution time :*****s
+
+Generating Test Report
+	data-providers/target/report/test_results.json
+
+error: there are test failures
